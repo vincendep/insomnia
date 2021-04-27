@@ -57,4 +57,7 @@ module.exports = {
     once() {},
     send: jest.fn(),
   },
+  shell: {
+    openExternal: jest.fn(),
+  },
 };

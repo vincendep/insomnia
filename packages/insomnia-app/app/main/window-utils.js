@@ -18,7 +18,7 @@ import * as misc from '../common/misc';
 import * as log from '../common/log';
 import * as os from 'os';
 import { docsBase } from '../common/documentation';
-
+const { sanitizedOpenExternal } = misc;
 const { app, Menu, BrowserWindow, shell, dialog, clipboard } = electron;
 
 // So we can use native modules in renderer
@@ -107,7 +107,7 @@ export function createWindow() {
 
     console.log('[app] Navigate to ' + url);
     e.preventDefault();
-    electron.shell.openExternal(url);
+    sanitizedOpenExternal(url);
   });
 
   // Load the html of the app.
@@ -254,7 +254,7 @@ export function createWindow() {
         label: `${MNEMONIC_SYM}Help and Support`,
         accelerator: !isMac() ? 'F1' : null,
         click: () => {
-          shell.openExternal(docsBase);
+          sanitizedOpenExternal(docsBase);
         },
       },
       {
@@ -291,7 +291,7 @@ export function createWindow() {
       {
         label: 'Show Software License',
         click: () => {
-          shell.openExternal('https://insomnia.rest/license');
+          sanitizedOpenExternal('https://insomnia.rest/license');
         },
       },
     ],

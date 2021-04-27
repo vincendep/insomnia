@@ -6,7 +6,9 @@ import {
   pluralize,
   snapNumberToLimits,
   convertEpochToMilliseconds,
+  sanitizedOpenExternal,
 } from '../misc';
+import * as electron from 'electron';
 
 describe('hasAuthHeader()', () => {
   beforeEach(globalBeforeEach);
@@ -300,5 +302,25 @@ describe('isNotNullOrUndefined', () => {
 
     expect(isNotNullOrUndefined(null)).toBe(false);
     expect(isNotNullOrUndefined(undefined)).toBe(false);
+  });
+});
+
+describe('sanitizedOpenExternal', () => {
+  it('should allow http links', () => {
+    const url = 'http://mockbin.org';
+    sanitizedOpenExternal(url);
+    expect(electron.shell.openExternal).toHaveBeenCalledWith(url);
+  });
+
+  it('should allow https links', () => {
+    const url = 'https://mockbin.org';
+    sanitizedOpenExternal(url);
+    expect(electron.shell.openExternal).toHaveBeenCalledWith(url);
+  });
+
+  it('should not allow smb links', () => {
+    const url = 'file:///C:/windows/system32/calc.exe';
+    sanitizedOpenExternal(url);
+    expect(electron.shell.openExternal).not.toHaveBeenCalledWith(url);
   });
 });

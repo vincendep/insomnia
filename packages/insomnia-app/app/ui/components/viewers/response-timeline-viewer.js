@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { shell } from 'electron';
 import CodeEditor from '../codemirror/code-editor';
 import * as models from '../../../models';
+import { sanitizedOpenExternal } from '../../../common/misc';
 
 class ResponseTimelineViewer extends PureComponent {
   state = {
@@ -11,7 +11,7 @@ class ResponseTimelineViewer extends PureComponent {
   };
 
   static _handleClickLink(link) {
-    shell.openExternal(link);
+    sanitizedOpenExternal(link);
   }
 
   componentDidMount() {

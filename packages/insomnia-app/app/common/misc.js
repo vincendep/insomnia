@@ -194,7 +194,7 @@ export function preventDefault(e: Event): void {
 }
 
 export function clickLink(href: string): void {
-  electron.shell.openExternal(href);
+  sanitizedOpenExternal(href);
 }
 
 export function fnOrString(v: string | Function, ...args: Array<any>) {
@@ -467,3 +467,9 @@ export function snapNumberToLimits(value: number, min?: number, max?: number): n
 export function isNotNullOrUndefined(obj: any): boolean {
   return obj !== null && obj !== undefined;
 }
+
+export const sanitizedOpenExternal = (href: string) => {
+  if (href.startsWith('http')) {
+    electron.shell.openExternal(href);
+  }
+};

@@ -9,7 +9,6 @@ import {
   PREVIEW_MODE_FRIENDLY,
   PREVIEW_MODE_RAW,
 } from '../../../common/constants';
-import { shell } from 'electron';
 import PDFViewer from './response-pdf-viewer';
 import CSVViewer from './response-csv-viewer';
 import CodeEditor from '../codemirror/code-editor';
@@ -21,6 +20,7 @@ import ResponseError from './response-error';
 import KeydownBinder from '../keydown-binder';
 import { executeHotKey } from '../../../common/hotkeys-listener';
 import { hotKeyRefs } from '../../../common/hotkeys';
+import { sanitizedOpenExternal } from '../../../common/misc';
 
 let alwaysShowLargeResponses = false;
 
@@ -81,7 +81,7 @@ class ResponseViewer extends React.Component<Props, State> {
   }
 
   _handleOpenLink(link: string) {
-    shell.openExternal(link);
+    sanitizedOpenExternal(link);
   }
 
   _handleDismissBlocker() {
