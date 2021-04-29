@@ -1,6 +1,7 @@
 // @flow
 
 import { getName, parseUrl, fillServerVariables } from '../common';
+import { reorderUpstream } from './common';
 
 export function generateUpstreams(api: OpenApi3Spec, tags: Array<string>) {
   const servers = api.servers || [];
@@ -37,5 +38,5 @@ export function generateUpstreams(api: OpenApi3Spec, tags: Array<string>) {
     }
   }
 
-  return [upstream];
+  return [reorderUpstream(upstream)];
 }

@@ -170,3 +170,27 @@ export function distinctByProperty<T>(arr: Array<T>, propertySelector: (item: T)
   }
   return result;
 }
+
+// reorders object members for nicer yaml output
+export function reorderObjectMembers(objIn: any, first: Array<string>, last: Array<string>): any {
+  const objOut = {};
+
+  first.forEach(propName => {
+    if (typeof objIn[propName] !== 'undefined') {
+      objOut[propName] = objIn[propName];
+    }
+  });
+
+  for (const [propName, value] of Object.entries(objIn)) {
+    if (typeof objOut[propName] === 'undefined' && !last.includes(propName)) {
+      objOut[propName] = value;
+    }
+  }
+
+  last.forEach(propName => {
+    if (typeof objIn[propName] !== 'undefined') {
+      objOut[propName] = objIn[propName];
+    }
+  });
+  return objOut;
+}

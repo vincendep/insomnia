@@ -10,6 +10,8 @@ import {
   parseUrl,
 } from '../common';
 
+import { reorderService, reorderRoute, reorderPlugins } from './common';
+
 import { generateSecurityPlugins } from './security-plugins';
 import {
   generateOperationPlugins,
@@ -58,7 +60,7 @@ export function generateService(
     host: name, // not a hostname, but the Upstream name
     port: Number(parsedUrl.port || '80'),
     path: parsedUrl.pathname,
-    plugins: globalPlugins.plugins,
+    plugins: reorderPlugins(globalPlugins.plugins),
     routes: [],
     tags,
   };
@@ -139,14 +141,14 @@ export function generateService(
 
       // Add plugins if there are any
       if (plugins.length) {
-        route.plugins = plugins;
+        route.plugins = reorderPlugins(plugins);
       }
 
-      service.routes.push(route);
+      service.routes.push(reorderRoute(route));
     }
   }
 
-  return service;
+  return reorderService(service);
 }
 
 export function generateRouteName(
